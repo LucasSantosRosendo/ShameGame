@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShameGame</title>
+    <link href="/style/style.css" rel="stylesheet" />
+    <link
+      rel="icon"
+      href="/components/images/ShameGameLogo.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header>
+      <div id="title">
+        <h1>ShameGame</h1>
+      </div>
+
+      <ul>
+        <a href="index.html" id="inicio-button"><li>Início</li></a>
+        <a href="sobre.html" id="sobre-button"><li>Sobre</li></a>
+
+        <div class="dropdown">
+          <button class="dropbtn">Cadastre-se</button>
+          <div class="dropdown-content">
+            <a href="cadastro.html">Cadastrar</a>
+          </div>
+        </div>
+      </ul>
+    </header>
+    <main>
+      <aside>
+        <h2><span>Venha vencer</span></h2>
+        <h2>a vergonha!</h2>
+        <p>
+          ShameGame é uma plataforma online que usa gamificação e feedback
+          sensorial para ajudar os usuários a compreender e superar a vergonha.
+          Através de desafios interativos, a plataforma promove o
+          autoconhecimento e o controle emocional, transformando a vergonha em
+          uma oportunidade de crescimento pessoal.
+        </p>
+        <form>
+          <div id="btn">
+            <button type="button" id="login-button">Logar</button>
+          </div>
+        </form>
+      </aside>
+      <article>
+        <img src="/components/images/Vergonha.png" alt="sentimento-vergonha" />
+      </article>
+    </main>
+
+    <script>
+      document
+        .getElementById("login-button")
+        .addEventListener("click", function () {
+          window.location.href = "login.html";
+        });
+    </script>
+  </body>
+</html>

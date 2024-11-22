@@ -1,0 +1,130 @@
+body {
+  background-color: #1e1e1e;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.container {
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+  margin-bottom: 40px;
+}
+
+.conquistas {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+.conquista {
+  background-color: #333;
+  color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  font-size: 18px;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.conquista:hover {
+  background-color: #eb84ab;
+  transform: scale(1.05);
+}
+
+.conquista:active {
+  transform: scale(0.98);
+}
+
+.conquista-icon {
+  font-size: 40px;
+  color: #eb84ab;
+}
+
+.conquista:hover .conquista-icon {
+  color: #fff;
+}
+
+.conquista-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.conquista-text p {
+  font-size: 14px;
+  color: #ccc;
+}
+
+@media (max-width: 600px) {
+  .conquista {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo {
+    width: 150px;
+  }
+
+  .conquista-icon {
+    font-size: 36px;
+  }
+
+  .conquista-text p {
+    font-size: 12px;
+  }
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: none;
+  color: #eb84ab;
+  font-size: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+
+.back-button i {
+  margin-right: 10px;
+}
+
+.back-button:hover {
+  transform: scale(1.1);
+}
+
+img {
+  margin-top: 50px;
+  width: 200px;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/perfil.css" />
+    <script
+      src="https://kit.fontawesome.com/b432763f75.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Perfil • ShameGame</title>
+  </head>
+  <body>
+    <header>
+      <a href="principal.html" class="back-button">← Voltar</a>
+      <img src="/components/images/ShameGameLogo.png" alt="Logo" class="logo" />
+    </header>
+
+    <section class="perfil-container">
+      <form class="form-perfil">
+        <label for="nome">Nome:</label>
+        <div class="input-container">
+          <i class="fas fa-user input-icon"></i>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            placeholder="Digite seu nome"
+          />
+        </div>
+
+        <label for="email">E-mail:</label>
+        <div class="input-container">
+          <i class="fas fa-envelope input-icon"></i>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Digite seu e-mail"
+          />
+        </div>
+
+        <label for="senha">Senha:</label>
+        <div class="input-container">
+          <i class="fas fa-lock input-icon"></i>
+          <input
+            type="password"
+            id="senha"
+            name="senha"
+            placeholder="Digite sua senha"
+          />
+        </div>
+
+        <label for="confirmar-senha">Confirmar Senha:</label>
+        <div class="input-container">
+          <i class="fas fa-lock input-icon"></i>
+          <input
+            type="password"
+            id="confirmar-senha"
+            name="confirmar-senha"
+            placeholder="Confirme sua senha"
+          />
+        </div>
+
+        <div class="botoes">
+          <button type="submit" class="confirmar">Confirmar Alterações</button>
+          <button
+            type="button"
+            class="cancelar"
+            onclick="window.location.href = 'perfil.html';"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <footer>
+      <p>Alterações no seu perfil podem ser feitas a qualquer momento.</p>
+    </footer>
+  </body>
+</html>

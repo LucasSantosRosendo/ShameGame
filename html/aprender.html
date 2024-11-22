@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aprender • ShameGame</title>
+    <link
+      rel="icon"
+      href="/components/images/ShameGameLogo.png"
+      type="image/x-icon"
+    />
+    <style>
+      body {
+        background-color: rgb(34, 34, 34);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        flex-direction: column;
+      }
+      .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: transparent;
+        border: none;
+        color: #eb84ab;
+        font-size: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s;
+      }
+      .back-button:hover {
+        transform: scale(1.1);
+      }
+      .message-container {
+        color: #eb84ab;
+        font-size: 40px;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .message {
+        display: none;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+      }
+      .message-1 {
+        animation: fadeInOut 12s infinite;
+      }
+      .message-2 {
+        animation: fadeInOut 12s infinite;
+        animation-delay: 4s;
+      }
+      .message-3 {
+        animation: fadeInOut 12s infinite;
+        animation-delay: 8s;
+      }
+      @keyframes fadeInOut {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        20%,
+        80% {
+          opacity: 1;
+        }
+      }
+      .menu-container {
+        display: none;
+        background-color: #2c2c2c;
+        color: #fff;
+        width: 1200px;
+        padding: 40px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: space-between;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+      }
+      .menu-container.show {
+        display: flex;
+        opacity: 1;
+      }
+      .scenario-box {
+        width: 70%;
+        height: 400px;
+        background-color: #1e1e1e;
+        margin-right: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        border: 2px solid #eb84ab;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+      }
+      .questions-container {
+        width: 28%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+      }
+      .menu-container button {
+        background-color: transparent;
+        border: 2px solid #eb84ab;
+        padding: 10px 20px;
+        color: #fff;
+        border-radius: 5px;
+        font-size: 18px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+      .menu-container button:hover {
+        background-color: #eb84ab;
+        transform: scale(1.05);
+      }
+      .menu-container p {
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      class="back-button"
+      onclick="window.location.href='principal.html';"
+    >
+      ← Voltar
+    </button>
+    <div class="message-container">
+      <div class="message message-1">Você é uma pessoa muito tímida?</div>
+      <div class="message message-2">
+        Já perdeu oportunidades por causa disso?
+      </div>
+      <div class="message message-3">Vamos aprender mais sobre a vergonha?</div>
+    </div>
+    <div class="menu-container">
+      <div class="scenario-box">
+        <span>Seu cenário aparece aqui.</span>
+      </div>
+      <div class="questions-container">
+        <button id="option1">a. Devo pensar na situação melhor</button>
+        <button id="option2">b. Isso não é motivo de vergonha!</button>
+        <button id="option3">c. Simplesmente vou ignorar tudo isso</button>
+      </div>
+    </div>
+    <script>
+      window.onload = function () {
+        const messages = document.querySelectorAll(".message");
+        const menuContainer = document.querySelector(".menu-container");
+        const questionsContainer = document.querySelector(
+          ".questions-container"
+        );
+        let currentMessageIndex = 0;
+
+        function showMessage(index) {
+          if (index < messages.length) {
+            messages[index].style.display = "block";
+            setTimeout(() => {
+              messages[index].style.opacity = 1;
+            }, 100);
+
+            setTimeout(() => {
+              messages[index].style.opacity = 0;
+            }, 4000);
+
+            setTimeout(() => {
+              messages[index].style.display = "none";
+            }, 5000);
+          }
+
+          if (index + 1 < messages.length) {
+            setTimeout(() => {
+              showMessage(index + 1);
+            }, 5000);
+          } else {
+            setTimeout(() => {
+              menuContainer.classList.add("show");
+            }, 6000);
+
+            setTimeout(() => {
+              questionsContainer.style.opacity = 1;
+            }, 20000);
+          }
+        }
+
+        showMessage(currentMessageIndex);
+      };
+    </script>
+  </body>
+</html>
