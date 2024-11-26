@@ -43,23 +43,69 @@
 
     <section class="metas">
       <h2>Metas futuras</h2>
-      <ul>
-        <li>
-          Responda mais 10 perguntas para desbloquear a próxima conquista!
-        </li>
-        <li>
-          Complete 20 perguntas sobre autoestima para desbloquear um novo
-          desafio!
-        </li>
-        <li>Compartilhe sua experiência no fórum para ganhar pontos extras!</li>
-      </ul>
+      <ul id="meta-list"></ul>
       <button class="adicionar-meta" onclick="adicionarMeta()">
         Adicionar Nova Meta
       </button>
+
+      <div id="nova-meta-container" style="display: none">
+        <input
+          type="text"
+          id="nova-meta-input"
+          placeholder="Digite sua nova meta"
+        />
+        <button onclick="salvarMeta()">Salvar Meta</button>
+      </div>
     </section>
 
     <footer>
       <p>Continue com o ótimo trabalho! Você está indo muito bem!</p>
     </footer>
+
+    <script>
+      function adicionarMeta() {
+        const novaMetaContainer = document.getElementById(
+          "nova-meta-container"
+        );
+        novaMetaContainer.style.display = "block";
+      }
+
+      function salvarMeta() {
+        const metaInput = document.getElementById("nova-meta-input");
+        const metaText = metaInput.value.trim();
+
+        if (metaText !== "") {
+          let metas = JSON.parse(localStorage.getItem("metas")) || [];
+
+          metas.push(metaText);
+
+          localStorage.setItem("metas", JSON.stringify(metas));
+
+          atualizarListaMetas();
+
+          metaInput.value = "";
+          document.getElementById("nova-meta-container").style.display = "none";
+        } else {
+          alert("Por favor, digite uma meta válida!");
+        }
+      }
+
+      function atualizarListaMetas() {
+        const metaList = document.getElementById("meta-list");
+        metaList.innerHTML = "";
+
+        const metas = JSON.parse(localStorage.getItem("metas")) || [];
+
+        metas.forEach((meta) => {
+          const newMetaItem = document.createElement("li");
+          newMetaItem.textContent = meta;
+          metaList.appendChild(newMetaItem);
+        });
+      }
+
+      window.onload = function () {
+        atualizarListaMetas();
+      };
+    </script>
   </body>
 </html>

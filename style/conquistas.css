@@ -128,3 +128,8 @@ img {
   margin-top: 50px;
   width: 200px;
 }
+
+.blur {
+  filter: blur(2.5px);
+  pointer-events: none;
+}

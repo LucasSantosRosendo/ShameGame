@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,6 +19,7 @@
         margin: 0;
         font-family: Arial, sans-serif;
         flex-direction: column;
+        user-select: none;
       }
       .back-button {
         position: absolute;
@@ -128,6 +129,12 @@
         font-size: 18px;
         margin-bottom: 20px;
       }
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
     </style>
   </head>
   <body>
@@ -137,6 +144,7 @@
     >
       ← Voltar
     </button>
+
     <div class="message-container">
       <div class="message message-1">Você é uma pessoa muito tímida?</div>
       <div class="message message-2">
@@ -144,26 +152,174 @@
       </div>
       <div class="message message-3">Vamos aprender mais sobre a vergonha?</div>
     </div>
+
     <div class="menu-container">
       <div class="scenario-box">
-        <span>Seu cenário aparece aqui.</span>
+        <video id="scenarioVideo" controls></video>
       </div>
       <div class="questions-container">
-        <button id="option1">a. Devo pensar na situação melhor</button>
-        <button id="option2">b. Isso não é motivo de vergonha!</button>
-        <button id="option3">c. Simplesmente vou ignorar tudo isso</button>
+        <p id="scenarioText">Texto do cenário aqui...</p>
+        <button id="option1" onclick="checkAnswer(1)">a. Opção 1</button>
+        <button id="option2" onclick="checkAnswer(2)">b. Opção 2</button>
+        <button id="option3" onclick="checkAnswer(3)">c. Opção 3</button>
       </div>
     </div>
+
+    <button id="connectButton" onclick="connectSerial()">
+      Conectar à porta serial
+    </button>
+
     <script>
-      window.onload = function () {
+      const scenarios = [
+        {
+          options: [
+            "Ignorar o celular e prestar atenção.",
+            "Pegar o celular e sair da sala.",
+            "Desligar o celular e pedir desculpas.",
+          ],
+          correctAnswer: 3,
+          video: "/components/videos/clash.mp4",
+          text: "Situação do celular tocando. Como lidar com ela?",
+        },
+        {
+          options: [
+            "Pedir para o professor escolher outra pessoa.",
+            "Falar o que sabe e mudar o rumo da apresentação.",
+            "Focar mais no que sabe e falar brevemente nos outros tópicos.",
+          ],
+          correctAnswer: 3,
+          video: "/components/videos/apresentacao.mp4",
+          text: "Situação da apresentação. Como lidar com ela?",
+        },
+        {
+          options: [
+            "Sorrir para ela e acenar a cabeça, concordando.",
+            "Falar que fez uma boa apresentação mesmo com o nervosismo.",
+            "Dizer que tem um compromisso e sair.",
+          ],
+          correctAnswer: 1,
+          video: "/components/videos/crush.mp4",
+          text: "Situação da (o) crush. Como lidar com ela?",
+        },
+        {
+          options: [
+            "Fingir desmaio.",
+            "Se levantar e fingir que nada aconteceu.",
+            "Sair correndo para o mais longe possível.",
+          ],
+          correctAnswer: 2,
+          video: "/components/videos/supermercado.mp4",
+          text: "Situação da queda. Como lidar com ela?",
+        },
+        {
+          options: [
+            "Concordar apenas para evitar diálogo.",
+            "Interrompê-lo se o conhece, pois não se lembra.",
+            "Conversar naturalmente, mesmo que tenha que inventar algumas coisas.",
+          ],
+          correctAnswer: 3,
+          video: "/components/videos/veio.mp4",
+          text: "Situação do senhor. Como lidar com ela?",
+        },
+      ];
+
+      let currentScenarioIndex = 0;
+      let correctAnswers = 0;
+      let valor = false;
+      let port;
+      let writer;
+
+      async function connectSerial() {
+        try {
+          console.log("Tentando conectar à porta serial...");
+          port = await navigator.serial.requestPort();
+          await port.open({ baudRate: 115200 });
+          writer = port.writable.getWriter();
+          console.log("Conectado à porta serial!");
+
+          sendValue();
+        } catch (error) {
+          console.log("Erro ao conectar na porta serial:", error);
+        }
+      }
+
+      function sendValue() {
+        const value = valor ? "true" : "false";
+        const encoder = new TextEncoder();
+        const encodedValue = encoder.encode(value + "\n");
+
+        if (writer) {
+          writer
+            .write(encodedValue)
+            .then(() => {
+              console.log(`Valor enviado: ${value}`);
+            })
+            .catch((error) => {
+              console.log("Erro ao enviar dados:", error);
+            });
+        } else {
+          console.log("Writer não definido!");
+        }
+      }
+
+      function checkAnswer(optionIndex) {
+        const currentScenario = scenarios[currentScenarioIndex];
+        const correctAnswer = currentScenario.correctAnswer;
+
+        if (optionIndex === correctAnswer) {
+          valor = true;
+          correctAnswers++;
+          alert("Resposta correta! Avançando para o próximo cenário.");
+          sendValue();
+
+          if (currentScenarioIndex < scenarios.length - 1) {
+            currentScenarioIndex++;
+            loadScenario(currentScenarioIndex);
+          } else {
+            alert("Parabéns, você completou todos os cenários!");
+            window.location.href = "principal.html";
+          }
+        } else {
+          valor = false;
+          alert("Resposta errada! Tente novamente.");
+          sendValue();
+        }
+      }
+
+      function loadScenario(index) {
+        const scenario = scenarios[index];
+        const videoElement = document.getElementById("scenarioVideo");
+        const scenarioTextElement = document.getElementById("scenarioText");
+
+        if (scenario.video) {
+          videoElement.src = scenario.video;
+          videoElement.style.display = "block";
+          videoElement.load();
+          videoElement.play();
+        } else {
+          videoElement.style.display = "none";
+        }
+
+        scenarioTextElement.textContent = scenario.text;
+
+        const options = document.querySelectorAll(
+          ".questions-container button"
+        );
+        options.forEach((button, i) => {
+          button.textContent = `${String.fromCharCode(97 + i)}. ${
+            scenario.options[i]
+          }`;
+        });
+
+        document.querySelector(".menu-container").classList.add("show");
+        document.querySelector(".questions-container").style.opacity = 1;
+      }
+
+      window.onload = () => {
         const messages = document.querySelectorAll(".message");
         const menuContainer = document.querySelector(".menu-container");
-        const questionsContainer = document.querySelector(
-          ".questions-container"
-        );
-        let currentMessageIndex = 0;
 
-        function showMessage(index) {
+        function showMessages(index) {
           if (index < messages.length) {
             messages[index].style.display = "block";
             setTimeout(() => {
@@ -181,20 +337,17 @@
 
           if (index + 1 < messages.length) {
             setTimeout(() => {
-              showMessage(index + 1);
+              showMessages(index + 1);
             }, 5000);
           } else {
             setTimeout(() => {
               menuContainer.classList.add("show");
-            }, 6000);
-
-            setTimeout(() => {
-              questionsContainer.style.opacity = 1;
-            }, 20000);
+              loadScenario(currentScenarioIndex);
+            }, 2000);
           }
         }
 
-        showMessage(currentMessageIndex);
+        showMessages(0);
       };
     </script>
   </body>

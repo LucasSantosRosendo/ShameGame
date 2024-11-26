@@ -146,3 +146,30 @@ footer {
   color: #ccc;
   width: 100%;
 }
+
+#nova-meta-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+#nova-meta-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+}
+
+#nova-meta-container button {
+  background-color: #eb84ab;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#nova-meta-container button:hover {
+  background-color: #d76f90;
+}
